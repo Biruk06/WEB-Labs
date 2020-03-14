@@ -1,0 +1,30 @@
+1.
+a.
+Content-Type: text/plain
+Content-Length: 14
+Server: nginx/1.2.2
+
+b.
+Content-Type: image/png
+Content-Length: 335525
+Server: nginx/1.2.2
+
+c.
+Content-Type: application/octet-stream
+Content-Length: 1137202
+Server: nginx/1.2.2
+
+2.
+a. 404 Not Found - код ошибки: Ресурс не найден. Чтобы исправить необходимо разместить на сервере данный ресурс.
+
+b. 200 OK - Запрос выполнен успешно. Код описывает специальное поведение веб-сервера.
+
+c. 302 Found - Ресурс отсутствует временно. Код описывает специальное поведение веб-сервера.
+
+d. 400 Work hard! - код ошибки: Плохой запрос от клиента. Чтобы исправить необходимо выполнить запрос http://localhost/lw1/javascript_is_a_client_side_language.php?how_to_work=hard т.е. заменить hardly на hard.
+
+3.
+Параметр charset указывает кодировку символов документа.
+Если charset не указан - в HTTP 1.1 говорится, что по умолчанию будет использован charset ISO-8859-1.
+Если charset указан неверно то отобразится нечитаемый текст.
+http://localhost/lw1/all_begin_from_http.html отдается нечитаемый текст т.к. файл находится в кодировке utf-8, чтобы текст был читаемым в файле all_begin_from_http.html необходимо задать тег <meta charset="utf-8"/>
