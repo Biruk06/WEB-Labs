@@ -3,43 +3,46 @@ using System.Collections.Generic;
 
 namespace PasswordStrength
 {
+    public struct PasswordParts
+    {
+        public int passwordLength;
+        public int lettersCount;
+        public int upperLettersCount;
+        public int lowerLettersCount;
+        public int numsCount;
+        public int duplicatesCount;
+    }
     public class Program
     {
-        public static int CalcPasswordStrength(string password)
+        public static PasswordParts CalcPasswordParts(string password)
         {
-            int strength = 0;
-            int lettersCount = 0, upperLettersCount = 0, lowerLettersCount = 0, numsCount = 0;
+            PasswordParts parts = new PasswordParts();
+            parts.passwordLength = password.Length;
             Dictionary<char, int> symbols = new Dictionary<char, int>();
-            /*if(password.Length == 0)
-            {
-                Console.WriteLine("Password can not be empty string.");
-                Environment.Exit(1);
-            }*/
-            for(int i = 0; i < password.Length; ++i)
+            for (int i = 0; i < password.Length; ++i)
             {
                 if (symbols.ContainsKey(password[i]))
                 {
                     symbols[password[i]] += 1;
-                    //Console.WriteLine(symbols[password[i]]);
                 }
                 else
                 {
                     symbols.Add(password[i], 1);
                 }
 
-                if(password[i] >= 'A' && password[i] <= 'Z')
+                if (password[i] >= 'A' && password[i] <= 'Z')
                 {
-                    ++lettersCount;
-                    ++upperLettersCount;
+                    ++parts.lettersCount;
+                    ++parts.upperLettersCount;
                 }
                 else if (password[i] >= 'a' && password[i] <= 'z')
                 {
-                    ++lettersCount;
-                    ++lowerLettersCount;
+                    ++parts.lettersCount;
+                    ++parts.lowerLettersCount;
                 }
-                else if(password[i] >= '0' && password[i] <= '9')
+                else if (password[i] >= '0' && password[i] <= '9')
                 {
-                    ++numsCount;
+                    ++parts.numsCount;
                 }
                 else
                 {
@@ -48,36 +51,41 @@ namespace PasswordStrength
                 }
             }
 
-            int duplicatesCount = 0;
-
-            foreach(var i in symbols)
+            foreach (var i in symbols)
             {
-                if(i.Value > 1)
+                if (i.Value > 1)
                 {
-                    duplicatesCount += i.Value;
+                    parts.duplicatesCount += i.Value;
                 }
             }
 
-            strength = 4 * password.Length;
-            strength += 4 * numsCount;
-            if (upperLettersCount != 0) {
-                strength += (password.Length - upperLettersCount) * 2;
+            return parts;
+        }
+
+        public static int CalcPasswordStrength(PasswordParts parts)
+        {
+            int strength = 0;
+            
+            strength = 4 * parts.passwordLength;
+            strength += 4 * parts.numsCount;
+            if (parts.upperLettersCount != 0) {
+                strength += (parts.passwordLength - parts.upperLettersCount) * 2;
             }
-            if (lowerLettersCount != 0)
+            if (parts.lowerLettersCount != 0)
             {
-                strength += (password.Length - lowerLettersCount) * 2;
+                strength += (parts.passwordLength - parts.lowerLettersCount) * 2;
             }
-            if(numsCount == 0)
+            if(parts.numsCount == 0)
             {
-                strength -= password.Length;
+                strength -= parts.passwordLength;
             }
-            if (lettersCount == 0)
+            if (parts.lettersCount == 0)
             {
-                strength -= password.Length;
+                strength -= parts.passwordLength;
             }
-            if(duplicatesCount != 0)
+            if(parts.duplicatesCount != 0)
             {
-                strength -= duplicatesCount;
+                strength -= parts.duplicatesCount;
             }
 
             return strength;
@@ -91,7 +99,8 @@ namespace PasswordStrength
             }
             else
             {
-                int passwordStrength = CalcPasswordStrength(args[0]);
+                PasswordParts parts = CalcPasswordParts(args[0]);
+                int passwordStrength = CalcPasswordStrength(parts);
                 Console.WriteLine(passwordStrength);
             }
         }
