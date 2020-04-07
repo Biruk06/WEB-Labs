@@ -1,78 +1,19 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace CheckIdentifer.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class CheckIdentiferTests
     {
-        [TestMethod]
-        public void CheckIdentifer_OnlyNumsIdentifer_ReturnedFalse()
+        [TestCase("123", false)]
+        [TestCase("", false)]
+        [TestCase("So12Me34", true)]
+        [TestCase("Begin", true)]
+        [TestCase("Sort1324", true)]
+        public void CheckIdentifer_ShouldReturnTrueOrFalse(string identifer, bool answer)
         {
-            //Arrange
-            string nonValidIdentifer = "123";
-            bool answer;
-
-            //Act
-            answer = Program.CheckIdentifer(nonValidIdentifer);
-
             //Assert
-            Assert.AreEqual(answer, false);
-        }
-
-        [TestMethod]
-        public void CheckIdentifer_EmptyString_ReturnedFalse()
-        {
-            //Arrange
-            string emptyString = "";
-            bool answer;
-
-            //Act
-            answer = Program.CheckIdentifer(emptyString);
-
-            //Assert
-            Assert.AreEqual(answer, false);
-        }
-
-        [TestMethod]
-        public void CheckIdentifer_NonValidIdentifer_ReturnedFalse()
-        {
-            //Arrange
-            string nonValidIdentifer = "So12Me34";
-            bool answer;
-
-            //Act
-            answer = Program.CheckIdentifer(nonValidIdentifer);
-
-            //Assert
-            Assert.AreEqual(answer, false);
-        }
-
-        [TestMethod]
-        public void CheckIdentifer_ValidIdentifer_ReturnedFalse()
-        {
-            //Arrange
-            string validIdentifer = "Begin";
-            bool answer;
-
-            //Act
-            answer = Program.CheckIdentifer(validIdentifer);
-
-            //Assert
-            Assert.AreEqual(answer, true);
-        }
-
-        [TestMethod]
-        public void CheckIdentifer_ValidIdentiferWithNums_ReturnedFalse()
-        {
-            //Arrange
-            string validIdentiferWithNums = "Sort123";
-            bool answer;
-
-            //Act
-            answer = Program.CheckIdentifer(validIdentiferWithNums);
-
-            //Assert
-            Assert.AreEqual(answer, true);
+            Assert.AreEqual(Program.CheckIdentifer(identifer), answer);
         }
     }
 }

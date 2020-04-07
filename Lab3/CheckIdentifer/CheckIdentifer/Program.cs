@@ -6,7 +6,6 @@ namespace CheckIdentifer
     {
         public static bool CheckIdentifer(string identifer)
         {
-            bool endNumsFlag = false;
             if (identifer == "")
             {
                 Console.WriteLine("Identifer can not be empty string.");
@@ -16,7 +15,7 @@ namespace CheckIdentifer
             {
                 for (int i = identifer.Length - 1; i >= 0; --i)
                 {
-                    if (char.IsDigit(identifer[i]) && !endNumsFlag)
+                    if (char.IsDigit(identifer[i]))
                     {
                         if (i == 0)
                         {
@@ -25,14 +24,13 @@ namespace CheckIdentifer
                         }
                         continue;
                     }
-                    else if (char.IsDigit(identifer[i]) && endNumsFlag)
+                    else if (char.IsDigit(identifer[i]) && i == 0)
                     {
-                        Console.WriteLine("Identifier can contain numbers only at the end.");
+                        Console.WriteLine("Identifier can not start from number.");
                         return false;
                     }
-                    else if (char.IsLetter(identifer[i]) && !endNumsFlag)
+                    else if (char.IsLetter(identifer[i]))
                     {
-                        endNumsFlag = true;
                         continue;
                     }
                     else if (!char.IsLetter(identifer[i]))

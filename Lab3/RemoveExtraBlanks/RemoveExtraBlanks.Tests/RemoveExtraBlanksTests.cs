@@ -1,63 +1,18 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace RemoveExtraBlanks.Tests
 {
-    [TestClass]
     public class RemoveExtraBlanksTests
     {
-        [TestMethod]
-        public void RemoveExtraBlanks_EmptyString_EmptyString()
+        [TestCase("", "", Description = "Should return empty string")]
+        [TestCase("   1  \t  2   3  \t  4    ", "1 2 3 4", Description = "Should remove extra blanks")]
+        [TestCase("1 2 3 4", "1 2 3 4", Description = "Should return the same string")]
+        [TestCase("    \t    ", "", Description ="Should remove extra blanks")]
+        [TestCase("123\n1234", "123\n1234", Description = "Should return the same string")]
+        public void RemoveExtraBlanks_EmptyString_EmptyString(string str, string answer)
         {
-            //Arrange
-            string emptyString = "";
-
-            //Act
-            emptyString = Program.RemoveExtraBlanks(emptyString);
-
             //Assert
-            Assert.AreEqual(emptyString, "");
-        }
-
-        [TestMethod]
-        public void RemoveExtraBlanks_StringWithExtraBlanks_StringWithoutExtraBlanks()
-        {
-            //Arrange
-            string withExtraBlanks = "   1    2   3    4    ";
-            string withoutExtraBlanks = "";
-
-            //Act
-            withoutExtraBlanks = Program.RemoveExtraBlanks(withExtraBlanks);
-
-            //Assert
-            Assert.AreEqual(withoutExtraBlanks, "1 2 3 4");
-        }
-
-        [TestMethod]
-        public void RemoveExtraBlanks_StringWithoutExtraBlanks_StringWithoutExtraBlanks()
-        {
-            //Arrange
-            string withoutExtraBlanks_1 = "1 2 3 4";
-            string withoutExtraBlanks_2 = "";
-
-            //Act
-            withoutExtraBlanks_2 = Program.RemoveExtraBlanks(withoutExtraBlanks_1);
-
-            //Assert
-            Assert.AreEqual(withoutExtraBlanks_2, "1 2 3 4");
-        }
-
-        [TestMethod]
-        public void RemoveExtraBlanks_StringWithOnlyBlanks_EmptyString()
-        {
-            //Arrange
-            string withOnlyBlanks = "            ";
-            string withoutExtraBlanks = "";
-
-            //Act
-            withoutExtraBlanks = Program.RemoveExtraBlanks(withOnlyBlanks);
-
-            //Assert
-            Assert.AreEqual(withoutExtraBlanks, "");
+            Assert.AreEqual(Program.RemoveExtraBlanks(str), answer);
         }
     }
 }
